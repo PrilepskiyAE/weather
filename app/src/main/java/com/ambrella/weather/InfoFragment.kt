@@ -20,7 +20,7 @@ class InfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val title = requireArguments().getString("title1")
-        binding.tvtest.setText(title)
+       // binding.tvtest.setText(title)
 
     }
 

@@ -28,12 +28,12 @@ lateinit var binding: FragmentMainBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val navController = Navigation.findNavController(view)
-binding.button.setOnClickListener{
+/*binding.button.setOnClickListener{
             //findNavController().navigate(R.id.infoFragment,null)
     val bundle = Bundle()
     bundle.putString("title1", "title1")
     navController.navigate(R.id.action_mainFragment_to_infoFragment,bundle)
-        }
+        }*/
     }
 
     companion object {
