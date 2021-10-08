@@ -21,6 +21,7 @@ class InfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val title = requireArguments().getString("title1")
        // binding.tvtest.setText(title)
+        binding.textView.setText(title)
 
     }
 
