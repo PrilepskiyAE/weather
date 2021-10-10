@@ -50,9 +50,10 @@ class InfoFragment : Fragment() {
             .subscribe( { it ->
                 val lon = it.coord.lon
                 val lat = it.coord.lat
-                val temp = it.main?.temp.toString()
+                var temp = it.main?.temp
                 val desc = it.weather[0].description.toString()
-                binding.textView.setText(temp)
+
+                binding.textView.setText(temp.toString())
                 binding.textView2.setText(desc)
                 Log.d("TAGS", "широта: " + lon + " Долгота: " + lat)
                 val call2= CityDetailApiClient.apiClientDetail.getWeatherCityDetail(
@@ -64,8 +65,8 @@ class InfoFragment : Fragment() {
                 call2
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe( { it ->
-                        val test=it.current?.temp
+                    .subscribe( {
+                        // val test=it.current?.temp
                         val daily = it.daily
                         binding.rvDaily.adapter=dailyAdapter(daily,R.layout.item_day)
                         val hourly = it.hourly
