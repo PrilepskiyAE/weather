@@ -54,7 +54,7 @@
             android:id="@+id/tvaddcity"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
-            android:hint="координаты"
+            android:hint="Город"
             android:minHeight="48dp"
             tools:ignore="SpeakableTextPresentCheck" />
 

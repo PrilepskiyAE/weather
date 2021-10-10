@@ -1,15 +1,26 @@
 package com.ambrella.weather
 
+import com.ambrella.weather.retrofit.CityApiClient
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ambrella.weather.databinding.FragmentInfoBinding
+import com.ambrella.weather.pojo.CurrentWeather
 
+import com.ambrella.weather.pojo.daysWeather
+import com.ambrella.weather.retrofit.CityDetailApiClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class InfoFragment : Fragment() {
     lateinit var binding: FragmentInfoBinding
+    var lon: Double=0.0
+    var lat: Double=0.0
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -22,6 +33,73 @@ class InfoFragment : Fragment() {
         val title = requireArguments().getString("title1")
        // binding.tvtest.setText(title)
         binding.textView.setText(title)
+
+        val call = CityApiClient.apiClient.getWeatherCity(title.toString(),"a356083d281fd41b8cc084604cfea1ab")
+        call.enqueue(object : Callback<CurrentWeather> {
+            override fun onResponse(
+                call: Call<CurrentWeather>,
+                response: Response<CurrentWeather>
+            ) {
+                // Получаем результат
+                //val weathers = response.body()!!.main?.temp?.toDouble().toString()
+                lon= response.body()!!.coord.lon
+                lat=response.body()!!.coord.lat
+               Log.d("TAGS", "широта: "+lon+" Долгота: "+lat)
+
+                val call2= CityDetailApiClient.apiClientDetail.getWeatherCityDetail(
+                    lat.toString(),
+                    lon.toString(),
+                    "minutely,alerts",
+                    "metric",
+                    "a356083d281fd41b8cc084604cfea1ab")
+
+
+
+                call2.enqueue(object : Callback<daysWeather>
+                {
+                    override fun onResponse(call: Call<daysWeather>, response: Response<daysWeather>) {
+                        val test=response.body()!!.current?.temp
+                        Log.d("TAGS", test.toString())
+                    }
+
+                    override fun onFailure(call: Call<daysWeather>, t: Throwable) {
+                        Log.e("TAGS", t.toString())
+                    }
+
+                })
+
+
+            }
+            override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
+                // Log error here since request failed
+                Log.e("TAGS", t.toString())
+            }
+        })
+/*
+        val call2=CityDetailApiClient.apiClientDetail.getWeatherCityDetail(
+            lat.toString(),
+            lon.toString(),
+            "minutely,alerts",
+            "metric",
+            "a356083d281fd41b8cc084604cfea1ab")
+
+
+
+        call2.enqueue(object : Callback<daysWeather>
+        {
+            override fun onResponse(call: Call<daysWeather>, response: Response<daysWeather>) {
+                val test=response.body()!!.current?.temp
+                Log.d("TAGS", test.toString())
+            }
+
+            override fun onFailure(call: Call<daysWeather>, t: Throwable) {
+                Log.e("TAGS", t.toString())
+            }
+
+        })
+
+
+ */
 
     }
 
