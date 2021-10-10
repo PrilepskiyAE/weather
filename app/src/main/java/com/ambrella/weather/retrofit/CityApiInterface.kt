@@ -9,6 +9,8 @@ interface CityApiInterface {
    @GET("/data/2.5/weather")
    fun getWeatherCity(
        @Query("q") city: String,
+       @Query("units") units: String,
+       @Query("lang") lang: String,
        @Query("appid") apiKey: String
    ): Call<CurrentWeather>
 }

@@ -2,9 +2,9 @@ package com.ambrella.weather.pojo
 
 data class CurrentWeather (
     var  coord: Coord,
-    //var weather: List<Weather>,
+    var weather: List<Weather>,
   //  var base: String? = null,
-   // var main: Main? = null,
+   var main: Main? = null,
    // var visibility:Int = 0,
    // var wind: Wind? = null,
    // var clouds: Clouds? = null,
@@ -21,7 +21,7 @@ data class Coord (
     var lon:Double = 0.0,
     var lat:Double = 0.0
 )
-/*
+
 data class Weather (
     var id:Int = 0,
     var main: String? = null,
@@ -37,7 +37,7 @@ data class Main(
     var pressure:Int= 0,
     var humidity:Int = 0
 )
-
+/*
 data class Wind (
     var speed:Double = 0.0,
     var deg:Int = 0

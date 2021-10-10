@@ -39,7 +39,7 @@ class Hourly {
     var wind_speed = 0.0
     var wind_deg = 0
     var wind_gust = 0.0
-    var weather: List<Weathers>? = null
+    //var weather: List<Weathers>? = null
     var pop = 0.0
 }
 
@@ -74,7 +74,7 @@ class Daily {
     var wind_speed = 0.0
     var wind_deg = 0
     var wind_gust = 0.0
-    var weather: List<Weathers>? = null
+   // var weather: List<Weathers>? = null
     var clouds = 0
     var pop = 0.0
     var uvi = 0.0

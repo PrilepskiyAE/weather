@@ -52,11 +52,13 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="50dp"
             android:gravity="center"
             android:padding="10dp"
             android:text="TextView" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvHourly"
             android:layout_width="401dp"
             android:layout_height="69dp"
             android:orientation="horizontal"
@@ -64,11 +66,11 @@
             tools:listitem="@layout/item_hour" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvDaily"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/item_day"
-            />
+            tools:listitem="@layout/item_day" />
 
     </LinearLayout>
 </FrameLayout>

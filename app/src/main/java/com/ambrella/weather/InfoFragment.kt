@@ -7,8 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.ambrella.weather.Adapters.dailyAdapter
+import com.ambrella.weather.Adapters.hourlyAdapter
 import com.ambrella.weather.databinding.FragmentInfoBinding
 import com.ambrella.weather.pojo.CurrentWeather
+import com.ambrella.weather.pojo.Daily
 
 import com.ambrella.weather.pojo.daysWeather
 import com.ambrella.weather.retrofit.CityDetailApiClient
@@ -32,9 +35,10 @@ class InfoFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val title = requireArguments().getString("title1")
        // binding.tvtest.setText(title)
-        binding.textView.setText(title)
+        binding.tvLabel.setText(title)
+        //binding.rvDaily
 
-        val call = CityApiClient.apiClient.getWeatherCity(title.toString(),"a356083d281fd41b8cc084604cfea1ab")
+        val call = CityApiClient.apiClient.getWeatherCity(title.toString(),"metric","ru","a356083d281fd41b8cc084604cfea1ab")
         call.enqueue(object : Callback<CurrentWeather> {
             override fun onResponse(
                 call: Call<CurrentWeather>,
@@ -44,6 +48,10 @@ class InfoFragment : Fragment() {
                 //val weathers = response.body()!!.main?.temp?.toDouble().toString()
                 lon= response.body()!!.coord.lon
                 lat=response.body()!!.coord.lat
+                val temp:String= response.body()!!.main?.temp.toString()
+                var desc:String= response.body()!!.weather[0].description.toString()
+                binding.textView.setText(temp)
+                binding.textView2.setText(desc)
                Log.d("TAGS", "широта: "+lon+" Долгота: "+lat)
 
                 val call2= CityDetailApiClient.apiClientDetail.getWeatherCityDetail(
@@ -60,6 +68,10 @@ class InfoFragment : Fragment() {
                     override fun onResponse(call: Call<daysWeather>, response: Response<daysWeather>) {
                         val test=response.body()!!.current?.temp
                         Log.d("TAGS", test.toString())
+                        val daily = response.body()!!.daily
+                        binding.rvDaily.adapter=dailyAdapter(daily,R.layout.item_day)
+                        val hourly = response.body()!!.hourly
+                        binding.rvHourly.adapter=hourlyAdapter(hourly,R.layout.item_hour)
                     }
 
                     override fun onFailure(call: Call<daysWeather>, t: Throwable) {
@@ -75,31 +87,7 @@ class InfoFragment : Fragment() {
                 Log.e("TAGS", t.toString())
             }
         })
-/*
-        val call2=CityDetailApiClient.apiClientDetail.getWeatherCityDetail(
-            lat.toString(),
-            lon.toString(),
-            "minutely,alerts",
-            "metric",
-            "a356083d281fd41b8cc084604cfea1ab")
 
-
-
-        call2.enqueue(object : Callback<daysWeather>
-        {
-            override fun onResponse(call: Call<daysWeather>, response: Response<daysWeather>) {
-                val test=response.body()!!.current?.temp
-                Log.d("TAGS", test.toString())
-            }
-
-            override fun onFailure(call: Call<daysWeather>, t: Throwable) {
-                Log.e("TAGS", t.toString())
-            }
-
-        })
-
-
- */
 
     }
 
