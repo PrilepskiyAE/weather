@@ -58,7 +58,7 @@
             android:minHeight="48dp"
             tools:ignore="SpeakableTextPresentCheck" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/searhicon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

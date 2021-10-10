@@ -72,12 +72,14 @@ class InfoFragment : Fragment() {
                         binding.rvHourly.adapter=hourlyAdapter(hourly,R.layout.item_hour)
                     },{// Логируем ошибку
                          error ->
-                        Log.e("TAG", error.toString())})
+                        Log.e("TAGS2", error.toString())})
 
             },
         { error ->
             // Логируем ошибку
-            Log.e("TAG", error.toString())
+            Log.e("TAGS1", error.toString())
+            binding.textView.setText("Введенный вами Город не найден")
+
         })
 
         /*

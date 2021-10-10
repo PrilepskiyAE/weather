@@ -71,7 +71,7 @@ lateinit var binding: FragmentMainBinding
             findNavController().navigate(R.id.infoFragment,null)
             val bundle = Bundle()
             bundle.putString("title1",binding.tvaddcity.text.toString())
-            navController.navigate(R.id.action_mainFragment_to_infoFragment,bundle)
+            navController.navigate(R.id.infoFragment,bundle)
         }
 
 
