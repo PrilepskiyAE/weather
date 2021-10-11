@@ -1,91 +1,91 @@
 package com.ambrella.weather.retrofit.pojo
 
-class Weathers {
-    var id = 0
-    var main: String? = null
-    var description: String? = null
-    var icon: String? = null
-}
+data class Weathers(
+    var id:Int = 0,
+    var main: String,
+    var description: String,
+    var icon: String
+)
 
-class Current {
-    var dt = 0
-    var sunrise = 0
-    var sunset = 0
-    var temp = 0.0
-    var feels_like = 0.0
-    var pressure = 0
-    var humidity = 0
-    var dew_point = 0.0
-    var uvi = 0.0
-    var clouds = 0
-    var visibility = 0
-    var wind_speed = 0.0
-    var wind_deg = 0
-    var weather: List<Weathers>? = null
-}
+data class Current (
+    var dt:Long,
+    var sunrise:Int,
+    var sunset:Int,
+    var temp:Double,
+    var feels_like:Double,
+    var pressure:Int,
+    var humidity:Int,
+    var dew_point:Double,
+    var uvi:Double,
+    var clouds:Int,
+    var visibility:Int,
+    var wind_speed:Double,
+    var wind_deg:Int,
+    var weather: List<Weathers>
+)
 
 
 
-class Hourly {
-    var dt = 0
-    var temp = 0.0
-    var feels_like = 0.0
-    var pressure = 0
-    var humidity = 0
-    var dew_point = 0.0
-    var uvi = 0.0
-    var clouds = 0
-    var visibility = 0
-    var wind_speed = 0.0
-    var wind_deg = 0
-    var wind_gust = 0.0
+data class Hourly (
+    var dt:Long = 0,
+    var temp :Double,
+    var feels_like:Double,
+    var pressure:Int,
+    var humidity:Int,
+    var dew_point:Double,
+    var uvi:Double,
+    var clouds:Int,
+    var visibility:Int,
+    var wind_speed:Double,
+    var wind_deg:Int,
+    var wind_gust :Double,
     //var weather: List<Weathers>? = null
-    var pop = 0.0
-}
+    var pop:Double
+)
 
-class Temp {
-    var day = 0.0
-    var min = 0.0
-    var max = 0.0
-    var night = 0.0
-    var eve = 0.0
-    var morn = 0.0
-}
+data class Temp (
+    var day:Double,
+    var min:Double,
+    var max:Double,
+    var night:Double,
+    var eve:Double,
+    var morn:Double,
+)
 
-class FeelsLike {
-    var day = 0.0
-    var night = 0.0
-    var eve = 0.0
-    var morn = 0.0
-}
+data class FeelsLike (
+    var day:Double,
+    var night:Double,
+    var eve:Double,
+    var morn:Double,
+)
 
-class Daily {
-    var dt = 0
-    var sunrise = 0
-    var sunset = 0
-    var moonrise = 0
-    var moonset = 0
-    var moon_phase = 0.0
-    var temp: Temp? = null
-    var feels_like: FeelsLike? = null
-    var pressure = 0
-    var humidity = 0
-    var dew_point = 0.0
-    var wind_speed = 0.0
-    var wind_deg = 0
-    var wind_gust = 0.0
+data class Daily (
+    var dt:Long,
+    var sunrise:Int,
+    var sunset :Int,
+    var moonrise:Int,
+    var moonset :Int,
+    var moon_phase:Double,
+    var temp: Temp,
+    var feels_like: FeelsLike,
+    var pressure :Int,
+    var humidity :Int,
+    var dew_point:Double,
+    var wind_speed :Double,
+    var wind_deg :Int,
+    var wind_gust:Double,
    // var weather: List<Weathers>? = null
-    var clouds = 0
-    var pop = 0.0
-    var uvi = 0.0
-    var rain = 0.0
-}
+    var clouds :Int,
+    var pop :Double,
+    var uvi :Double,
+    var rain :Double
+)
 
 data class daysWeather (
-    var lat:Double = 0.0,
-    var lon:Double = 0.0,
-    var timezone: String? = null,
-    var timezone_offset:Int = 0,
+    var lat:Double,
+    var lon:Double,
+    var timezone: String,
+    var timezone_offset:Int,
     var current: Current,
     var hourly: List<Hourly>,
     var daily: List<Daily>

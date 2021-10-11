@@ -4,7 +4,7 @@ data class CurrentWeather (
     var  coord: Coord,
     var weather: List<Weather>,
   //  var base: String? = null,
-   var main: Main? = null,
+   var main: Main
    // var visibility:Int = 0,
    // var wind: Wind? = null,
    // var clouds: Clouds? = null,
@@ -24,9 +24,9 @@ data class Coord (
 
 data class Weather (
     var id:Int = 0,
-    var main: String? = null,
-    var description: String? = null,
-    var icon: String? = null
+    var main: String,
+    var description: String,
+    var icon: String
 )
 
 data class Main(

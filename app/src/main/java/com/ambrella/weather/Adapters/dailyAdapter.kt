@@ -28,11 +28,11 @@ class dailyAdapter(
 
         holder.date.text=convertTimestapToDateTime(current.dt.toLong())
 
-        if(current.temp?.day!! > 0.0){
-            holder.temp.text = "+${current.temp!!.day}"
+        if(current.temp.day > 0.0){
+            holder.temp.text = "+${current.temp.day}"
         }else
         {
-            holder.temp.text = current.temp!!.day.toString()
+            holder.temp.text = current.temp.day.toString()
         }
 
 
