@@ -7,11 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ambrella.weather.Model.City
 import com.ambrella.weather.R
-import com.ambrella.weather.pojo.Hourly
+import com.ambrella.weather.retrofit.pojo.Hourly
 import com.ambrella.weather.utils.convertTimestapToTime
 
 class hourlyAdapter (
-    private val weatherTemp: List<Hourly>?,
+    private val weatherTemp: List<Hourly>,
     private val rowLayout: Int
 ): RecyclerView.Adapter<hourlyAdapter.hourlyViewHolder>() {
 
@@ -26,20 +26,22 @@ class hourlyAdapter (
     }
 
     override fun onBindViewHolder(holder: hourlyViewHolder, position: Int) {
-        val current= weatherTemp?.get(position)
+        val current= weatherTemp.get(position)
 
-        holder.time.text= convertTimestapToTime(current?.dt?.toLong())
-        holder.temp.text= current?.temp?.toString()
+        holder.time.text= convertTimestapToTime(current.dt.toLong())
+        if(current.temp > 0.0){
+            holder.temp.text = "+${current.temp}"
+        }else
+        {
+            holder.temp.text = current.temp.toString()
+        }
 
     }
 
     override fun getItemCount(): Int {
-        return weatherTemp!!.size
+        return weatherTemp.size
     }
 
-    interface OnCityClicLisener
-    {
-        fun onCityClick(city: City)
-    }
+
 
 }

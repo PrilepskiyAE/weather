@@ -1,4 +1,4 @@
-package com.ambrella.weather.pojo
+package com.ambrella.weather.retrofit.pojo
 
 class Weathers {
     var id = 0
@@ -81,12 +81,12 @@ class Daily {
     var rain = 0.0
 }
 
-class daysWeather {
-    var lat = 0.0
-    var lon = 0.0
-    var timezone: String? = null
-    var timezone_offset = 0
-    var current: Current? = null
-    var hourly: List<Hourly>? = null
-    var daily: List<Daily>? = null
-}
+data class daysWeather (
+    var lat:Double = 0.0,
+    var lon:Double = 0.0,
+    var timezone: String? = null,
+    var timezone_offset:Int = 0,
+    var current: Current,
+    var hourly: List<Hourly>,
+    var daily: List<Daily>
+)

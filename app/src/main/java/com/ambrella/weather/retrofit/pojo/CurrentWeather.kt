@@ -1,4 +1,4 @@
-package com.ambrella.weather.pojo
+package com.ambrella.weather.retrofit.pojo
 
 data class CurrentWeather (
     var  coord: Coord,

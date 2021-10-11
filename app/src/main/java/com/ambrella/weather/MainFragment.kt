@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import android.widget.Toolbar
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -12,6 +13,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.ambrella.weather.Adapters.ListAdapter
 import com.ambrella.weather.Adapters.historyAdapter
 import com.ambrella.weather.Model.City
@@ -98,13 +100,17 @@ lateinit var binding: FragmentMainBinding
         binding.searhicon.setOnClickListener()
         {
 
-           cityListViewModel.insertCity(tableCity(city = binding.tvaddcity.text.toString()))
-            historyadapter.notifyDataSetChanged()
-            findNavController().navigate(R.id.infoFragment,null)
-            val bundle = Bundle()
-            bundle.putString("title1",binding.tvaddcity.text.toString())
-            navController.navigate(R.id.infoFragment,bundle)
-
+            if(binding.tvaddcity.text.toString() == "")
+            {
+                Toast.makeText(getActivity(), "А какого хрена поля пустые а? ", Toast.LENGTH_LONG).show()
+            }else {
+                cityListViewModel.insertCity(tableCity(city = binding.tvaddcity.text.toString()))
+                historyadapter.notifyDataSetChanged()
+                findNavController().navigate(R.id.infoFragment, null)
+                val bundle = Bundle()
+                bundle.putString("title1", binding.tvaddcity.text.toString())
+                navController.navigate(R.id.infoFragment, bundle)
+            }
 
         }
 
@@ -128,15 +134,8 @@ lateinit var binding: FragmentMainBinding
         }
 
 
-
-        /* binding.button.setOnClickListener()
-         // {
-        //       requireActivity().supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView,BlankFragment2.newInstance()).commit()
-         // }
-            supportFragmentManager.beginTransaction().replace(R.id.fragmentContainerView,BlankFragment.newInstance()).commit()
-          */
-
         historyadapter.notifyDataSetChanged()
+
     }
 
 
@@ -147,6 +146,8 @@ lateinit var binding: FragmentMainBinding
         }
 
     }
+
+
 
     companion object {
         @JvmStatic
