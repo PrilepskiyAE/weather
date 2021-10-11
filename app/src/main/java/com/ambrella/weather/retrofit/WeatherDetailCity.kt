@@ -1,9 +1,7 @@
 package com.ambrella.weather.retrofit
 
-import com.ambrella.weather.pojo.CurrentWeather
-import com.ambrella.weather.pojo.daysWeather
+import com.ambrella.weather.retrofit.pojo.daysWeather
 import io.reactivex.Single
-import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Query
 

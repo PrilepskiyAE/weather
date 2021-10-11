@@ -13,16 +13,10 @@ import androidx.navigation.fragment.findNavController
 import com.ambrella.weather.Adapters.dailyAdapter
 import com.ambrella.weather.Adapters.hourlyAdapter
 import com.ambrella.weather.databinding.FragmentInfoBinding
-import com.ambrella.weather.pojo.CurrentWeather
-import com.ambrella.weather.pojo.Daily
 
-import com.ambrella.weather.pojo.daysWeather
 import com.ambrella.weather.retrofit.CityDetailApiClient
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class InfoFragment : Fragment() {
     lateinit var binding: FragmentInfoBinding

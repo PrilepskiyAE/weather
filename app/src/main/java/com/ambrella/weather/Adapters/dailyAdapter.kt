@@ -6,12 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ambrella.weather.R
-import com.ambrella.weather.pojo.Daily
+import com.ambrella.weather.retrofit.pojo.Daily
 import com.ambrella.weather.utils.convertTimestapToDateTime
-import com.ambrella.weather.utils.convertTimestapToTime
 
 class dailyAdapter(
-    private val weatherTemp: List<Daily>?,
+    private val weatherTemp: List<Daily>,
     private val rowLayout: Int
 ): RecyclerView.Adapter<dailyAdapter.dailyViewHolder>() {
     class dailyViewHolder(v: View): RecyclerView.ViewHolder(v){
@@ -25,14 +24,22 @@ class dailyAdapter(
     }
 
     override fun onBindViewHolder(holder: dailyViewHolder, position: Int) {
-        val current= weatherTemp?.get(position)
+        val current= weatherTemp.get(position)
 
-        holder.date.text=convertTimestapToDateTime(current?.dt?.toLong())
-        holder.temp.text= current?.temp?.day.toString()
+        holder.date.text=convertTimestapToDateTime(current.dt.toLong())
+
+        if(current.temp.day > 0.0){
+            holder.temp.text = "+${current.temp.day}"
+        }else
+        {
+            holder.temp.text = current.temp.day.toString()
+        }
+
+
     }
 
     override fun getItemCount(): Int {
-        return weatherTemp!!.size
+        return weatherTemp.size
     }
 
 
