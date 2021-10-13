@@ -1,6 +1,7 @@
 package com.ambrella.weather.retrofit.pojo
 
-data class CurrentWeather (
+// и под каждый класс лучше отдельный файл заводить
+data class CurrentWeather (// подумай можно ли что-нить заменить на val
     var  coord: Coord,
     var weather: List<Weather>,
   //  var base: String? = null,
@@ -17,19 +18,19 @@ data class CurrentWeather (
 )
 
 
-data class Coord (
+data class Coord (// подумай можно ли что-нить заменить на val
     var lon:Double = 0.0,
     var lat:Double = 0.0
 )
 
-data class Weather (
+data class Weather (// подумай можно ли что-нить заменить на val
     var id:Int = 0,
     var main: String,
     var description: String,
     var icon: String
 )
 
-data class Main(
+data class Main(// подумай можно ли что-нить заменить на val
     var temp:Double = 0.0,
     var feels_like:Double = 0.0,
     var temp_min:Double = 0.0,

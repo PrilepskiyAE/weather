@@ -1,6 +1,6 @@
 package com.ambrella.weather.retrofit
 
-import com.ambrella.weather.retrofit.pojo.daysWeather
+import com.ambrella.weather.retrofit.pojo.DaysWeather
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -13,5 +13,5 @@ interface WeatherDetailCity {
         @Query("exclude") exclude: String,
         @Query("units") units: String,
         @Query("appid") apiKey: String
-    ): Single<daysWeather>
+    ): Single<DaysWeather>
 }

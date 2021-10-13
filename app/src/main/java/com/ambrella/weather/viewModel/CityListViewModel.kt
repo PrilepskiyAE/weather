@@ -1,19 +1,18 @@
-package com.ambrella.weather.ViewModel
+package com.ambrella.weather.viewModel
 
 import androidx.lifecycle.*
-import com.ambrella.weather.Model.Room.RoomDatabaseCity
-import com.ambrella.weather.Model.Room.tableCity
-import com.ambrella.weather.Repository.CityRepositoryImpl
+import com.ambrella.weather.model.room.RoomDatabaseCity
+import com.ambrella.weather.model.room.TableCity
+import com.ambrella.weather.repository.CityRepositoryImpl
 import kotlinx.coroutines.launch
 
-class CityListViewModel(private val repository: CityRepositoryImpl) :
-    ViewModel() {
+class CityListViewModel(private val repository: CityRepositoryImpl) : ViewModel() {
     val data: MutableLiveData<String> by lazy { MutableLiveData<String>() }
     private val _dataLoading = MutableLiveData<Boolean>()
     val dataLoading: LiveData<Boolean> = _dataLoading
 
     init {
-        for (city in RoomDatabaseCity.PREPOPULATE_DATA){
+        for (city in RoomDatabaseCity.PREPOPULATE_DATA) {
             viewModelScope.launch {
                 repository.insert(city)
             }
@@ -21,15 +20,13 @@ class CityListViewModel(private val repository: CityRepositoryImpl) :
 
     }
 
-    fun insertCity(city: tableCity)
-    {
+    fun insertCity(city: TableCity) {
         showProgress()
         viewModelScope.launch { repository.insert(city) }
         hideProgress()
     }
 
-    fun deleteCity(city: tableCity)
-    {
+    fun deleteCity(city: TableCity) {
         showProgress()
         viewModelScope.launch {
             repository.delete(city)
@@ -37,11 +34,10 @@ class CityListViewModel(private val repository: CityRepositoryImpl) :
         hideProgress()
     }
 
-    fun getAllCity(): LiveData<List<tableCity>>
-    {
-        val citys: LiveData<List<tableCity>>?
+    fun getAllCity(): LiveData<List<TableCity>> {
+        val citys: LiveData<List<TableCity>>?// Города не так пишуться
         showProgress()
-        citys=repository.getAllCity().asLiveData()
+        citys = repository.getAllCity().asLiveData()// обработки ошибок нет негде
         hideProgress()
         return citys
     }
@@ -49,10 +45,10 @@ class CityListViewModel(private val repository: CityRepositoryImpl) :
     private fun showProgress() {
         _dataLoading.value = true
     }
+
     private fun hideProgress() {
         _dataLoading.value = false
     }
-
 
 
 }
