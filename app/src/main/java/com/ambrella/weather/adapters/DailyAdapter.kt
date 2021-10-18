@@ -7,7 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.ambrella.weather.R
 import com.ambrella.weather.retrofit.pojo.Daily
-import com.ambrella.weather.utils.convertTimestapToDateTime
+
+import com.ambrella.weather.utils.convertTimestapToTime
 
 class DailyAdapter(
     private val weatherTemp: List<Daily>,
@@ -20,8 +21,8 @@ class DailyAdapter(
     }
 
     override fun onBindViewHolder(holder: DailyViewHolder, position: Int) {
-        val current = weatherTemp[position]
-        holder.date.text = convertTimestapToDateTime(current.dt)
+        val current = weatherTemp.get(position)
+        holder.date.text = convertTimestapToTime(current.dt,"d.M.y")
         if (current.temp.day > 0.0) {
             holder.temp.text = "+${current.temp.day}"
         } else {

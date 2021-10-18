@@ -7,13 +7,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import com.ambrella.weather.adapters.DailyAdapter
 import com.ambrella.weather.adapters.HoursAdapter
 import com.ambrella.weather.databinding.FragmentInfoBinding
-import com.ambrella.weather.retrofit.CityApiClient
-import com.ambrella.weather.retrofit.CityDetailApiClient
+import com.ambrella.weather.repository.RetrofitRepositoryImpl
+import com.ambrella.weather.retrofit.CityApiInterface
+import com.ambrella.weather.retrofit.WeatherDetailCity
+import com.ambrella.weather.viewModel.RetrofitViewModel
+import com.ambrella.weather.viewModel.RetrofitViewModelFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -21,11 +25,12 @@ class InfoFragment : Fragment() {
     lateinit var binding: FragmentInfoBinding
     var lon: Double = 0.0
     var lat: Double = 0.0
-
+    lateinit var viewModel: RetrofitViewModel
+    private lateinit var viewModelFactory: ViewModelProvider.Factory
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
+    ): View? {
         binding = FragmentInfoBinding.inflate(inflater)
         return binding.root
     }
@@ -34,115 +39,32 @@ class InfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val title = requireArguments().getString("title1")
-        binding.tvLabel.setText(title) // используй котлин
-        val call = CityApiClient.apiClient.getWeatherCity(
-            title.toString(),
-            "metric",
-            "ru",
-            "a356083d281fd41b8cc084604cfea1ab"
+        binding.tvLabel.text = title
+        val retrofitService: CityApiInterface = CityApiInterface.CityApiClient.apiClient()
+        val retrofitSercice2: WeatherDetailCity = WeatherDetailCity.CityDetailApiClient.apiClient()
+
+        viewModelFactory = RetrofitViewModelFactory(
+            RetrofitRepositoryImpl(retrofitService,retrofitSercice2),
+            title!!,
+            binding.root
         )
-        call// а на хрена RX?
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ it ->
-                val lon = it.coord.lon
-                val lat = it.coord.lat
-                var temp = it.main?.temp
-                val desc = it.weather[0].description.toString()
-
-                binding.textView.setText(temp.toString())
-                binding.textView2.setText(desc)
-                Log.d("TAGS", "широта: " + lon + " Долгота: " + lat)
-                val call2 = CityDetailApiClient.apiClientDetail.getWeatherCityDetail(
-                    lat.toString(),
-                    lon.toString(),
-                    "minutely,alerts",
-                    "metric",
-                    "a356083d281fd41b8cc084604cfea1ab"
-                )
-                call2
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe({
-                        // val test=it.current?.temp
-                        val daily = it.daily
-                        binding.rvDaily.adapter = DailyAdapter(daily, R.layout.item_day)
-                        val hourly = it.hourly
-                        binding.rvHourly.adapter = HoursAdapter(hourly, R.layout.item_hour)
-                    }, {// Логируем ошибку
-                            error ->
-                        Log.e("TAGS2", error.toString())
-                    })
-
-            },
-                { error ->
-                    // Логируем ошибку
-                    Log.e("TAGS1", error.toString())
-                    binding.textView.setText("Введенный вами Город не найден")
-
-                })
-
-        /*
-        enqueue(object : Callback<CurrentWeather> {
-            override fun onResponse(
-                call: Call<CurrentWeather>,
-                response: Response<CurrentWeather>
-            ) {
-                // Получаем результат
-                //val weathers = response.body()!!.main?.temp?.toDouble().toString()
-                lon= response.body()!!.coord.lon
-                lat=response.body()!!.coord.lat
-                val temp:String= response.body()!!.main?.temp.toString()
-                var desc:String= response.body()!!.weather[0].description.toString()
-                binding.textView.setText(temp)
-                binding.textView2.setText(desc)
-               Log.d("TAGS", "широта: "+lon+" Долгота: "+lat)
-
-                val call2= CityDetailApiClient.apiClientDetail.getWeatherCityDetail(
-                    lat.toString(),
-                    lon.toString(),
-                    "minutely,alerts",
-                    "metric",
-                    "a356083d281fd41b8cc084604cfea1ab")
-
-
-
-                call2.enqueue(object : Callback<daysWeather>
-                {
-                    override fun onResponse(call: Call<daysWeather>, response: Response<daysWeather>) {
-                        val test=response.body()!!.current?.temp
-                        Log.d("TAGS", test.toString())
-                        val daily = response.body()!!.daily
-                        binding.rvDaily.adapter=dailyAdapter(daily,R.layout.item_day)
-                        val hourly = response.body()!!.hourly
-                        binding.rvHourly.adapter=hourlyAdapter(hourly,R.layout.item_hour)
-                    }
-
-                    override fun onFailure(call: Call<daysWeather>, t: Throwable) {
-                        Log.e("TAGS", t.toString())
-                    }
-
-                })
-
-
-            }
-            override fun onFailure(call: Call<CurrentWeather>, t: Throwable) {
-                // Log error here since request failed
-                Log.e("TAGS", t.toString())
-            }
-        })
-
-         */
+        viewModel = ViewModelProvider(this, viewModelFactory).get(RetrofitViewModel::class.java)
+        viewModel.getRequest()
         binding.downfrac.setOnClickListener {
-            val navController = Navigation.findNavController(view)
-            findNavController().navigate(R.id.mainFragment, null)
-            navController.navigate(R.id.mainFragment)
+            transitionFrag(view, R.id.mainFragment)
         }
 
     }
 
+    private fun transitionFrag(view: View, fragnId: Int) {
+        val navController = Navigation.findNavController(view)
+        findNavController().navigate(fragnId, null)
+        navController.navigate(fragnId)
+    }
+
+
     companion object {
         @JvmStatic
-        fun newInstance() = InfoFragment() //на фига если не используешь
+        fun newInstance() = InfoFragment()
     }
 }

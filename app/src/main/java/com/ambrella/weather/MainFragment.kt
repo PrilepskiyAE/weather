@@ -9,10 +9,13 @@ import android.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.ambrella.weather.adapters.HistoryAdapter
-import com.ambrella.weather.adapters.ListAdapter
+import com.ambrella.weather.adapters.CityListAdapter
 import com.ambrella.weather.databinding.FragmentMainBinding
 import com.ambrella.weather.model.City
 import com.ambrella.weather.model.room.TableCity
@@ -49,20 +52,22 @@ class MainFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentMainBinding.inflate(inflater)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val navController = Navigation.findNavController(view)
-        val adapter = ListAdapter(mCityList)
-        // val adapterhistory
+        val adapter = CityListAdapter(mCityList)
         var isHistory: Boolean = true
+        val swapHelper = getSwapMg()
+        swapHelper.attachToRecyclerView(binding.historyList)
         binding.historyList.setVisibility(View.GONE);
         binding.history.setOnClickListener {
-            if (isHistory) { // используй котлин)))
+            if (isHistory) {
                 binding.historyList.setVisibility(View.GONE)
                 binding.listRecyclerView.setVisibility(View.VISIBLE)
+
+
                 isHistory = false
             } else {
                 binding.historyList.setVisibility(View.VISIBLE)
@@ -70,31 +75,24 @@ class MainFragment : Fragment() {
                 isHistory = true
             }
         }
-
-
-
-        adapter.onCityClickListener = object : ListAdapter.OnCityClickListener {
+  adapter.onCityClickListener = object : CityListAdapter.OnCityClickListener{
             override fun onCityClick(city: City) {
-                findNavController().navigate(R.id.infoFragment, null)
-                val bundle = Bundle()
-                bundle.putString("title1", city.city)
-                navController.navigate(R.id.infoFragment, bundle)
+                navigationFrag(navController,city.city)
             }
+
         }
 
         binding.listRecyclerView.adapter = adapter
 
-        binding.searhicon.setOnClickListener() {
+        binding.searhicon.setOnClickListener()
+        {
+
             if (binding.tvaddcity.text.toString() == "") {
-                Toast.makeText(activity, "А какого хрена поля пустые а? ", Toast.LENGTH_LONG)
+                Toast.makeText(getActivity(), "А какого хрена поля пустые а? ", Toast.LENGTH_LONG)
                     .show()
             } else {
                 cityListViewModel.insertCity(TableCity(city = binding.tvaddcity.text.toString()))
-                historyadapter.notifyDataSetChanged()
-                findNavController().navigate(R.id.infoFragment, null)
-                val bundle = Bundle()
-                bundle.putString("title1", binding.tvaddcity.text.toString())
-                navController.navigate(R.id.infoFragment, bundle)
+                navigationFrag(navController,binding.tvaddcity.text.toString())
             }
 
         }
@@ -104,29 +102,64 @@ class MainFragment : Fragment() {
         )
         cityListViewModel =
             ViewModelProvider(this, viewModelFactory).get(CityListViewModel::class.java)
-        cityListViewModel.getAllCity().observe(viewLifecycleOwner, {
+        cityListViewModel.getAllCity().observe(viewLifecycleOwner, Observer<List<TableCity>> {
             updateResults(it)
         })
-
-        historyadapter.onHistoryClickListener = object : HistoryAdapter.OnHistoryClickListener {
+/*
+        historyadapter.onHistoryClicLisener = object : HistoryAdapter.OnHistoryClicLisener {
             override fun onHistoryClick(city: TableCity) {
-                findNavController().navigate(R.id.infoFragment, null)
-                val bundle = Bundle()
-                bundle.putString("title1", city.city)
-                navController.navigate(R.id.infoFragment, bundle)
+                navigationFrag(navController,city.city)
+
             }
 
         }
-        historyadapter.notifyDataSetChanged()
+
+ */
+
+        historyadapter.onHistoryClickListener =object : HistoryAdapter.OnHistoryClickListener{
+            override fun onHistoryClick(city: TableCity) {
+                navigationFrag(navController,city.city)
+            }
+
+        }
+
     }
 
+    private fun navigationFrag(navController: NavController, message:String) {
+
+        findNavController().navigate(R.id.infoFragment, null)
+        val bundle = Bundle()
+        bundle.putString("title1", message)
+        navController.navigate(R.id.infoFragment, bundle)
+    }
+
+    private fun getSwapMg(): ItemTouchHelper {
+        return ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                   cityListViewModel.deleteCity(historyadapter.getCity(viewHolder.adapterPosition))
+
+                }
+            }
+        )
+    }
 
     private fun updateResults(cityt: List<TableCity>) {
         historyadapter.setCity(cityt)
         binding.historyList.apply {
             adapter = historyadapter
         }
+
     }
+
 
     companion object {
         @JvmStatic

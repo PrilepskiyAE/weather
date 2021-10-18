@@ -21,8 +21,8 @@ class HoursAdapter(
     }
 
     override fun onBindViewHolder(holder: HourViewHolder, position: Int) {
-        val current = weatherTemp[position]//здесь все таки котлин а не джава использовал раньше get()
-        holder.time.text = convertTimestapToTime(current.dt)
+        val current = weatherTemp.get(position)//здесь все таки котлин а не джава использовал раньше get()
+        holder.time.text = convertTimestapToTime(current.dt,"HH:mm")
         if (current.temp > 0.0) {
             holder.temp.text = "+${current.temp}"
         } else {
@@ -37,6 +37,6 @@ class HoursAdapter(
 }
 
 class HourViewHolder(v: View) : RecyclerView.ViewHolder(v) {
-    internal var time: TextView = v.findViewById(R.id.tvTime) //здесь не var а val
-    internal var temp: TextView = v.findViewById(R.id.tvTemp) //здесь не var а val
+    internal val time: TextView = v.findViewById(R.id.tvTime) //здесь не var а val = исправил
+    internal val temp: TextView = v.findViewById(R.id.tvTemp) //здесь не var а val = исправил
 }

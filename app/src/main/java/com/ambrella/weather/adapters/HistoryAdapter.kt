@@ -10,16 +10,16 @@ import com.ambrella.weather.R
 
 class HistoryAdapter : RecyclerView.Adapter<HistoryViewHolder>() {
     private var cities: List<TableCity> = listOf()
-    var onHistoryClickListener: OnHistoryClickListener? = null//тоже не должен быть null
+    lateinit var onHistoryClickListener: OnHistoryClickListener//тоже не должен быть null = исправил
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_city, parent, false)
         return HistoryViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: HistoryViewHolder, position: Int) {
-        val quote = cities[position]
-        holder.bind(quote)
-        holder.itemView.setOnClickListener { onHistoryClickListener?.onHistoryClick(quote) }
+        val quote = cities.get(position)
+        holder.init(quote)
+        holder.itemView.setOnClickListener { onHistoryClickListener.onHistoryClick(quote) }
     }
 
     interface OnHistoryClickListener {
@@ -33,12 +33,15 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryViewHolder>() {
         this.cities = t
         notifyDataSetChanged()
     }
+    fun getCity(pos: Int): TableCity {
+        return cities.get(pos)
+    }
 }
 
 class HistoryViewHolder(view: View) : RecyclerView.ViewHolder(view) {
     private val mCity: TextView = itemView.findViewById(R.id.tvCity)
 
-    fun bind(currentCity: TableCity) {
+    fun init(currentCity: TableCity) {
         mCity.text = currentCity.city
     }
 }
