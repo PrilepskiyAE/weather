@@ -8,10 +8,10 @@ import kotlinx.coroutines.launch
 
 class CityListViewModel(private val repository: CityRepositoryImpl) : ViewModel() {
     val data: MutableLiveData<String> by lazy { MutableLiveData<String>() }
-    private val _dataLoading = MutableLiveData<Boolean>()
-    val dataLoading: LiveData<Boolean> = _dataLoading
+    //private val _dataLoading = MutableLiveData<Boolean>()
+   // val dataLoading: LiveData<Boolean> = _dataLoading
 
-    init {
+    /*init {
         for (city in RoomDatabaseCity.PREPOPULATE_DATA) {
             viewModelScope.launch {
                 repository.insert(city)
@@ -20,35 +20,37 @@ class CityListViewModel(private val repository: CityRepositoryImpl) : ViewModel(
 
     }
 
+     */
+
     fun insertCity(city: TableCity) {
-        showProgress()
+      //  showProgress()
         viewModelScope.launch { repository.insert(city) }
-        hideProgress()
+      //  hideProgress()
     }
 
     fun deleteCity(city: TableCity) {
-        showProgress()
+   //     showProgress()
         viewModelScope.launch {
             repository.delete(city)
         }
-        hideProgress()
+            // hideProgress()
     }
 
     fun getAllCity(): LiveData<List<TableCity>> {
-        val citys: LiveData<List<TableCity>>?// Города не так пишуться
-        showProgress()
-        citys = repository.getAllCity().asLiveData()// обработки ошибок нет негде
-        hideProgress()
+        val citys: LiveData<List<TableCity>>?
+      //  showProgress()
+        citys = repository.getAllCity().asLiveData()
+  //      hideProgress()
         return citys
     }
 
-    private fun showProgress() {
-        _dataLoading.value = true
-    }
+    //private fun showProgress() {
+   //     _dataLoading.value = true
+   // }
 
-    private fun hideProgress() {
-        _dataLoading.value = false
-    }
+    //private fun hideProgress() {
+   //     _dataLoading.value = false
+   // }
 
 
 }

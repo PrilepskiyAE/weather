@@ -30,7 +30,7 @@ interface WeatherDetailCity {
                     .build()
                 retrofitService=retrofit.create(WeatherDetailCity::class.java)
             }
-            return retrofitService!!
+            return retrofitService?:throw IllegalArgumentException("Invalid network")
         }
     }
 }

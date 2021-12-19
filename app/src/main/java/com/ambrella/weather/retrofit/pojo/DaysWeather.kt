@@ -1,45 +1,45 @@
 package com.ambrella.weather.retrofit.pojo
 //посмотри коммент из файла CurrentWeather
 data class Weathers(
-    var id: Int = 0,
-    var main: String,
-    var description: String,
-    var icon: String
+    val id: Int = 0,
+    val main: String,
+    val description: String,
+    val icon: String
 )
 
 data class Current(
-    var dt: Long,
-    var sunrise: Int,
-    var sunset: Int,
-    var temp: Double,
-    var feels_like: Double,
-    var pressure: Int,
-    var humidity: Int,
-    var dew_point: Double,
-    var uvi: Double,
-    var clouds: Int,
-    var visibility: Int,
-    var wind_speed: Double,
-    var wind_deg: Int,
-    var weather: List<Weathers>
+    val dt: Long,
+    val sunrise: Int,
+    val sunset: Int,
+    val temp: Double,
+    val feels_like: Double,
+    val pressure: Int,
+    val humidity: Int,
+    val dew_point: Double,
+    val uvi: Double,
+    val clouds: Int,
+    val visibility: Int,
+    val wind_speed: Double,
+    val wind_deg: Int,
+    val weather: List<Weathers>
 )
 
 
 data class Hourly(
-    var dt: Long = 0,
-    var temp: Double,
-    var feels_like: Double,
-    var pressure: Int,
-    var humidity: Int,
-    var dew_point: Double,
-    var uvi: Double,
-    var clouds: Int,
-    var visibility: Int,
-    var wind_speed: Double,
-    var wind_deg: Int,
-    var wind_gust: Double,
+    val dt: Long = 0,
+    val temp: Double,
+    val feels_like: Double,
+    val pressure: Int,
+    val humidity: Int,
+    val dew_point: Double,
+    val uvi: Double,
+    val clouds: Int,
+    val visibility: Int,
+    val wind_speed: Double,
+    val wind_deg: Int,
+    val wind_gust: Double,
     //var weather: List<Weathers>? = null
-    var pop: Double
+    val pop: Double
 )
 
 data class Temp(

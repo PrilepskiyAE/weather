@@ -42,6 +42,8 @@ class RetrofitViewModel(val view: View,val title:String,val retrofitRepository: 
                         if (!(response.body()?.main?.temp.toString() == null || response.body()?.weather?.get(0)?.description== null)){
                             view.textView.text = temp
                             view.textView2.text = desc
+                           // Glide.with(itemView)
+                           // view.imageView.Glide
                         }else
                         {
                             view.textView.text="Введенный вами город не найден"

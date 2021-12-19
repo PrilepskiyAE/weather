@@ -23,10 +23,12 @@ abstract class RoomDatabaseCity : RoomDatabase() {
             }
             return INSTANCE
         }
-
+/*
         val PREPOPULATE_DATA = listOf(
             TableCity(1, "testing1"),
             TableCity(2, "testing2")
         )
+
+ */
     }
 }

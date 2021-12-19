@@ -24,7 +24,7 @@ lateinit var onCityClickListener: OnCityClickListener// этот интерфе�
         return list.size
     }
 
-    interface OnCityClickListener {//вот этот интерфейс много где пофторяется придумай как объединить=еще подумаю
+    interface OnCityClickListener {
         fun onCityClick(city: City)
     }
 }
@@ -33,7 +33,7 @@ class CityViewHolder(inflater: LayoutInflater, parent: ViewGroup) :
     RecyclerView.ViewHolder(inflater.inflate(R.layout.item_city, parent, false)) {
     private val mCity : TextView = itemView.findViewById(R.id.tvCity)
 
-    fun init(city: City) {//bild нейминг впринципе норм но лучше init=исправил
+    fun init(city: City) {
         mCity.text = city.city
     }
 }

@@ -6,9 +6,9 @@ import java.time.Instant
 import java.time.ZoneId
 import java.util.*
 
-fun convertTimestapToTime(timestap: Long,pattern:String): String {// здесь по идее на вход не должно нулл падать паттерны в отдельные константы, и вообще подумай как этот код упростить
+fun convertTimestapToTime(timestap: Long,pattern:String): String {
 
-    val stamp = Timestamp(timestap * 1000)//умножение на тысячу выглядит как костыль = пока не понял как избавиться от костыля=))
+    val stamp = Timestamp(timestap * 1000)
     //val stamp = Timestamp(System.currentTimeMillis())
     val date = Date(stamp.time)
 

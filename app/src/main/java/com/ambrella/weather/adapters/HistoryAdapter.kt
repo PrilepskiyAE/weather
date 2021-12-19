@@ -10,7 +10,7 @@ import com.ambrella.weather.R
 
 class HistoryAdapter : RecyclerView.Adapter<HistoryViewHolder>() {
     private var cities: List<TableCity> = listOf()
-    lateinit var onHistoryClickListener: OnHistoryClickListener//тоже не должен быть null = исправил
+    lateinit var onHistoryClickListener: OnHistoryClickListener
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HistoryViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_city, parent, false)
         return HistoryViewHolder(view)

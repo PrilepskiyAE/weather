@@ -13,8 +13,8 @@ class CityRepositoryImpl(context: Context, private val backgroundDispatcher: Cor
     private val taskDao: DaoCity
 
     init {
-        val database = RoomDatabaseCity.getInstance(context)
-        taskDao = database!!.daoCity()
+        val database = RoomDatabaseCity.getInstance(context)?:throw IllegalArgumentException("Invalid database")
+        taskDao = database.daoCity()
     }
 
     override fun getAllCity(): Flow<List<TableCity>> {
@@ -30,7 +30,7 @@ class CityRepositoryImpl(context: Context, private val backgroundDispatcher: Cor
 
     override suspend fun delete(city: TableCity) {
         withContext(backgroundDispatcher) {
-            taskDao.deleteAll()
+            taskDao.delete(city)
         }
     }
 }

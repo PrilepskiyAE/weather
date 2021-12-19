@@ -32,7 +32,7 @@ interface CityApiInterface {
                     .build()
                 retrofitService=retrofit.create(CityApiInterface::class.java)
             }
-            return retrofitService!!
+            return retrofitService?:throw IllegalArgumentException("Invalid network")
         }}}
 
 

@@ -38,14 +38,14 @@ class InfoFragment : Fragment() {
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val title = requireArguments().getString("title1")
+        val title = requireArguments().getString("title1")?:throw IllegalArgumentException("Invalid requireArguments")
         binding.tvLabel.text = title
         val retrofitService: CityApiInterface = CityApiInterface.CityApiClient.apiClient()
         val retrofitSercice2: WeatherDetailCity = WeatherDetailCity.CityDetailApiClient.apiClient()
 
         viewModelFactory = RetrofitViewModelFactory(
             RetrofitRepositoryImpl(retrofitService,retrofitSercice2),
-            title!!,
+            title,
             binding.root
         )
         viewModel = ViewModelProvider(this, viewModelFactory).get(RetrofitViewModel::class.java)
@@ -58,13 +58,8 @@ class InfoFragment : Fragment() {
 
     private fun transitionFrag(view: View, fragnId: Int) {
         val navController = Navigation.findNavController(view)
-        findNavController().navigate(fragnId, null)
+      //  findNavController().navigate(fragnId, null)
         navController.navigate(fragnId)
     }
 
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = InfoFragment()
-    }
 }

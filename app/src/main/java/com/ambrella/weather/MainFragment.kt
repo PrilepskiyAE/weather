@@ -88,7 +88,7 @@ class MainFragment : Fragment() {
         {
 
             if (binding.tvaddcity.text.toString() == "") {
-                Toast.makeText(getActivity(), "А какого хрена поля пустые а? ", Toast.LENGTH_LONG)
+                Toast.makeText(getActivity(), "А почему поля пустые а? ", Toast.LENGTH_LONG)
                     .show()
             } else {
                 cityListViewModel.insertCity(TableCity(city = binding.tvaddcity.text.toString()))
@@ -127,10 +127,11 @@ class MainFragment : Fragment() {
 
     private fun navigationFrag(navController: NavController, message:String) {
 
-        findNavController().navigate(R.id.infoFragment, null)
+        //findNavController().navigate(R.id.infoFragment, null)
         val bundle = Bundle()
         bundle.putString("title1", message)
-        navController.navigate(R.id.infoFragment, bundle)
+        //navController.navigate(R.id.infoFragment, bundle)
+        navController.navigate(R.id.action_mainFragment_to_infoFragment, bundle)
     }
 
     private fun getSwapMg(): ItemTouchHelper {
@@ -160,9 +161,4 @@ class MainFragment : Fragment() {
 
     }
 
-
-    companion object {
-        @JvmStatic
-        fun newInstance() = MainFragment()
-    }
 }
